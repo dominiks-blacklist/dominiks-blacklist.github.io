@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Blacklist - Informationen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'blood-red': '#990000',
+                        'deep-black': '#000000',
+                        'charcoal': '#1a1a1a',
+                        'crimson': '#DC143C',
+                    },
+                    fontFamily: {
+                        'cinzel': ['Cinzel', 'serif'],
+                        'body': ['Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow-red {
+                text-shadow: 0 0 10px rgba(220, 20, 60, 0.5);
+            }
+            .cinematic-border {
+                border: 1px solid rgba(220, 20, 60, 0.3);
+            }
+        }
+    </style>
+</head>
+<body class="bg-deep-black text-white font-body">
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-crimson/20">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-3xl font-cinzel font-bold text-crimson">
+                    The Blacklist
+                </a>
+                <a href="index.html" class="hover:text-crimson transition-colors duration-300">Zurück zur Hauptseite</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen pt-32 pb-20">
+        <div class="container mx-auto px-6">
+            <h1 class="text-5xl font-cinzel text-center mb-16 text-crimson">Informationen</h1>
+            
+            <div class="max-w-2xl mx-auto space-y-12">
+                <div class="bg-charcoal cinematic-border p-8 rounded-lg">
+                    <h2 class="text-2xl font-cinzel mb-4 text-crimson">Über das Projekt</h2>
+                    <p class="text-gray-300 mb-4">
+                        Inhalte gesammelt und geordnet durch Dominik
+                    </p>
+                </div>
+
+                <div class="bg-charcoal cinematic-border p-8 rounded-lg">
+                    <h2 class="text-2xl font-cinzel mb-4 text-crimson">Entwicklung</h2>
+                    <p class="text-gray-300 mb-4">
+                        Website programmiert / entwickelt von 
+                        <a href="https://caydendev.github.io" 
+                           class="text-crimson hover:text-blood-red transition-colors duration-300"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            Cayden
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-deep-black border-t border-crimson/20 py-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>© <span id="current-year"></span> | The Blacklist | Made with ❤️ by <a href="#" onclick="redirectCayden()">Cayden</a></p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
