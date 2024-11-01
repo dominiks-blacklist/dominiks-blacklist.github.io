@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Blacklist - Enter the World of Intrigue</title>
+    <title>The Blacklist - Enter the Criminal Underworld</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'blacklist-red': '#8B0000',
-                        'blacklist-dark': '#0a0a0a',
+                        'blood-red': '#990000',
+                        'deep-black': '#000000',
+                        'charcoal': '#1a1a1a',
+                        'crimson': '#DC143C',
                     },
                     fontFamily: {
-                        'sans': ['Helvetica', 'Arial', 'sans-serif'],
-                        'serif': ['Georgia', 'serif'],
+                        'cinzel': ['Cinzel', 'serif'],
+                        'body': ['Roboto', 'sans-serif'],
                     },
                 }
             }
@@ -27,315 +32,258 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            .text-shadow {
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            .text-shadow-red {
+                text-shadow: 0 0 10px rgba(220, 20, 60, 0.5);
             }
-            .bg-gradient {
-                background: linear-gradient(to right, #000000, #8B0000);
+            .neo-brutalism {
+                box-shadow: 5px 5px 0px #990000;
             }
-            .clip-triangle {
-                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            .gradient-mask {
+                mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
             }
-            .animate-flicker {
-                animation: flicker 1.5s infinite alternate;
+            .cinematic-border {
+                border: 1px solid rgba(220, 20, 60, 0.3);
             }
-            @keyframes flicker {
-                0% { opacity: 0.5; }
-                100% { opacity: 1; }
+            .glitch-effect {
+                animation: glitch 1s infinite;
             }
-            .text-stroke {
-                -webkit-text-stroke: 1px rgba(139, 0, 0, 0.5);
-            }
-            .glass-effect {
-                background: rgba(10, 10, 10, 0.8);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-            }
-            
-            .text-gradient {
-                background: linear-gradient(to right, #ffffff, #8B0000);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-            
-            .hover-lift {
-                transition: transform 0.3s ease;
-            }
-            
-            .hover-lift:hover {
-                transform: translateY(-5px);
+            @keyframes glitch {
+                0% { transform: translate(0) }
+                20% { transform: translate(-2px, 2px) }
+                40% { transform: translate(-2px, -2px) }
+                60% { transform: translate(2px, 2px) }
+                80% { transform: translate(2px, -2px) }
+                100% { transform: translate(0) }
             }
         }
     </style>
 </head>
-<body class="bg-blacklist-dark text-white font-sans overflow-x-hidden">
-    <div id="cursor" class="fixed w-4 h-4 bg-blacklist-red rounded-full pointer-events-none z-50 mix-blend-difference"></div>
-    
-    <header class="fixed top-0 left-0 right-0 z-40 transition-all duration-300" id="navbar">
-        <nav class="container mx-auto px-4 py-4">
+<body class="bg-deep-black text-white font-body">
+    <div id="particles-js" class="fixed inset-0 z-0 opacity-30"></div>
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-crimson/20">
+        <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <h1 class="text-3xl font-bold text-gradient font-serif tracking-wider">The Blacklist</h1>
-                <ul class="flex space-x-8">
-                    <li><a href="#home" class="nav-link relative overflow-hidden pb-1 text-lg hover:text-blacklist-red transition-colors duration-300">Home</a></li>
-                    <li><a href="#about" class="nav-link relative overflow-hidden pb-1 text-lg hover:text-blacklist-red transition-colors duration-300">About</a></li>
-                    <li><a href="#characters" class="nav-link relative overflow-hidden pb-1 text-lg hover:text-blacklist-red transition-colors duration-300">Characters</a></li>
-                    <li><a href="#episodes" class="nav-link relative overflow-hidden pb-1 text-lg hover:text-blacklist-red transition-colors duration-300">Episodes</a></li>
-                </ul>
+                <div class="text-3xl font-cinzel font-bold text-crimson glitch-effect">
+                    The Blacklist
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="hover:text-crimson transition-colors duration-300">Overview</a>
+                    <a href="#characters" class="hover:text-crimson transition-colors duration-300">Characters</a>
+                    <a href="#episodes" class="hover:text-crimson transition-colors duration-300">Episodes</a>
+                    <a href="#intel" class="hover:text-crimson transition-colors duration-300">Intel</a>
+                    <a href="#locations" class="hover:text-crimson transition-colors duration-300">Locations</a>
+                </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main>
-        <section id="home" class="h-screen flex items-center justify-center bg-cover bg-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-80"></div>
-            <video autoplay loop muted class="absolute w-auto min-w-full min-h-full max-w-none scale-110 transform">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4" type="video/mp4">
+    <section class="h-screen relative flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <video autoplay loop muted class="object-cover w-full h-full opacity-40">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-red-ink-spreading-in-water-97749-large.mp4" type="video/mp4">
             </video>
-            <div class="text-center relative z-10 px-4">
-                <h2 class="text-7xl md:text-9xl font-bold mb-6 text-shadow text-stroke bg-clip-text text-transparent bg-gradient-to-r from-white to-blacklist-red" id="hero-title"></h2>
-                <p class="text-xl md:text-3xl mb-10 text-shadow animate-fade-in-up font-light">Enter the world of crime, intrigue, and redemption</p>
-                <a href="#about" class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-blacklist-red rounded-full overflow-hidden transition-all duration-300 ease-out hover:scale-105">
-                    <span class="absolute inset-0 w-full h-full bg-gradient-to-br from-black to-blacklist-red opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
-                    <span class="relative">Uncover the Mystery</span>
-                </a>
+            <div class="absolute inset-0 bg-gradient-to-t from-deep-black via-deep-black/50 to-transparent"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-6xl md:text-8xl font-cinzel font-bold mb-6 text-shadow-red">
+                    Enter the Shadows
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-300">
+                    Where crime meets intelligence, and nothing is as it seems
+                </p>
+                <button class="bg-crimson px-8 py-4 rounded-none neo-brutalism hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-300">
+                    Begin Investigation
+                </button>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="about" class="py-20 bg-gradient relative">
-            <div class="container mx-auto px-4 relative z-10">
-                <h2 class="text-6xl font-bold mb-10 text-center font-serif">About the Show</h2>
-                <p class="text-xl text-center max-w-4xl mx-auto leading-relaxed opacity-0 transform translate-y-10" id="about-text">
-                    "The Blacklist" is a thrilling crime drama that follows the enigmatic Raymond "Red" Reddington, a former U.S. Navy officer turned high-profile criminal. After decades of eluding capture, Red mysteriously surrenders to the FBI with an intriguing offer: he will help catch the world's most dangerous criminals, under one condition - he must work with rookie FBI profiler Elizabeth Keen. As they dive deeper into the criminal underworld, the line between ally and enemy blurs, and shocking secrets are unveiled.
+    <section id="overview" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-5xl font-cinzel text-center mb-16 text-crimson">The Blacklist: Unraveling the Mystery</h2>
+            <div class="max-w-4xl mx-auto text-center">
+                <p class="text-xl text-gray-300 mb-8">
+                    "The Blacklist" follows Raymond "Red" Reddington, a former U.S. Navy officer turned high-profile criminal, who voluntarily surrenders to the FBI after eluding capture for decades. His only condition: he must work with a newly minted FBI profiler, Elizabeth Keen, to bring down dangerous criminals and terrorists.
+                </p>
+                <p class="text-xl text-gray-300">
+                    As the series unfolds, secrets are revealed, alliances are tested, and the line between good and evil becomes increasingly blurred. Welcome to a world where trust is a luxury and everyone has something to hide.
                 </p>
             </div>
-            <div class="absolute bottom-0 left-0 w-full h-20 bg-blacklist-dark clip-triangle"></div>
-        </section>
+        </div>
+    </section>
 
-        <section id="characters" class="py-20 bg-blacklist-dark">
-            <div class="container mx-auto px-4">
-                <h2 class="text-6xl font-bold mb-16 text-center font-serif bg-clip-text text-transparent bg-gradient-to-r from-white to-blacklist-red">Main Characters</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                    <div class="bg-gradient-to-br from-black to-blacklist-red p-[2px] rounded-2xl character-card group hover:shadow-2xl hover:shadow-blacklist-red/20 transition-all duration-300">
-                        <div class="bg-black p-6 rounded-2xl h-full">
-                            <div class="relative overflow-hidden mb-6 rounded-xl">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Raymond Reddington" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <section id="characters" class="py-20 bg-charcoal">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-cinzel text-white text-center mb-16">Key Players</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group bg-deep-black rounded-lg overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300">
+                    <img src="https://static.wikia.nocookie.net/the-blacklist/images/3/3b/Raymond_Reddington.png" alt="Raymond Reddington" class="w-full h-80 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-cinzel text-crimson mb-2">Raymond Reddington</h3>
+                        <p class="text-gray-300">A former U.S. Navy officer turned high-profile criminal, now working with the FBI as an informant.</p>
+                    </div>
+                </div>
+                <div class="group bg-deep-black rounded-lg overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300">
+                    <img src="https://static.wikia.nocookie.net/the-blacklist/images/4/4d/Elizabeth_Keen.jpg" alt="Elizabeth Keen" class="w-full h-80 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-cinzel text-crimson mb-2">Elizabeth Keen</h3>
+                        <p class="text-gray-300">An FBI profiler whose life changes dramatically when Reddington specifically requests to work with her.</p>
+                    </div>
+                </div>
+                <div class="group bg-deep-black rounded-lg overflow-hidden shadow-xl transform hover:scale-105 transition-all duration-300">
+                    <img src="https://static.wikia.nocookie.net/the-blacklist/images/1/17/Donald_Ressler.jpg" alt="Donald Ressler" class="w-full h-80 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-cinzel text-crimson mb-2">Donald Ressler</h3>
+                        <p class="text-gray-300">An FBI Special Agent who initially leads the hunt for Reddington before becoming a key ally.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="episodes" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-5xl font-cinzel text-center mb-16 text-crimson">Case Files</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="space-y-8">
+                    <div class="group relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-crimson to-blood-red blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        <div class="relative bg-charcoal cinematic-border p-8">
+                            <div class="flex items-start gap-6">
+                                <div class="text-crimson font-cinzel text-4xl opacity-50">#1</div>
+                                <div>
+                                    <h3 class="text-2xl font-cinzel mb-3">Pilot: The Beginning</h3>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        The FBI's most wanted fugitive surrenders mysteriously with an explosive offer.
+                                    </p>
+                                </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-center mb-3 font-serif">Raymond Reddington</h3>
-                            <p class="text-center text-gray-400 group-hover:text-white transition-colors duration-300">The criminal mastermind at the heart of the story</p>
                         </div>
                     </div>
-                    <div class="bg-gradient-to-br from-black to-blacklist-red p-[2px] rounded-2xl character-card group hover:shadow-2xl hover:shadow-blacklist-red/20 transition-all duration-300">
-                        <div class="bg-black p-6 rounded-2xl h-full">
-                            <div class="relative overflow-hidden mb-6 rounded-xl">
-                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=776&q=80" alt="Elizabeth Keen" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="group relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-crimson to-blood-red blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        <div class="relative bg-charcoal cinematic-border p-8">
+                            <div class="flex items-start gap-6">
+                                <div class="text-crimson font-cinzel text-4xl opacity-50">#2</div>
+                                <div>
+                                    <h3 class="text-2xl font-cinzel mb-3">The Freelancer</h3>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        Red and Liz work with the FBI to track down a mysterious assassin known as "The Freelancer".
+                                    </p>
+                                </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-center mb-2 font-serif">Elizabeth Keen</h3>
-                            <p class="text-center text-gray-400">The rookie FBI profiler with a mysterious past</p>
                         </div>
                     </div>
-                    <div class="bg-gradient-to-br from-black to-blacklist-red p-[2px] rounded-2xl character-card group hover:shadow-2xl hover:shadow-blacklist-red/20 transition-all duration-300">
-                        <div class="bg-black p-6 rounded-2xl h-full">
-                            <div class="relative overflow-hidden mb-6 rounded-xl">
-                                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Donald Ressler" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="group relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-crimson to-blood-red blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                        <div class="relative bg-charcoal cinematic-border p-8">
+                            <div class="flex items-start gap-6">
+                                <div class="text-crimson font-cinzel text-4xl opacity-50">#3</div>
+                                <div>
+                                    <h3 class="text-2xl font-cinzel mb-3">Wujing</h3>
+                                    <p class="text-gray-400 leading-relaxed">
+                                        Red and Liz go undercover to take down a high-level Chinese spy.
+                                    </p>
+                                </div>
                             </div>
-                            <h3 class="text-2xl font-bold text-center mb-2 font-serif">Donald Ressler</h3>
-                            <p class="text-center text-gray-400">The dedicated FBI agent with unwavering principles</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="episodes" class="py-20 bg-gradient relative">
-            <div class="container mx-auto px-4 relative z-10">
-                <h2 class="text-6xl font-bold mb-16 text-center font-serif bg-clip-text text-transparent bg-gradient-to-r from-white to-blacklist-red">Episode Guide</h2>
-                <div class="space-y-8 max-w-4xl mx-auto">
-                    <div class="bg-gradient-to-r from-black to-blacklist-red/20 p-[1px] rounded-xl episode-card group">
-                        <div class="bg-black/90 p-8 rounded-xl backdrop-blur-lg transition-all duration-300 hover:bg-black/70">
-                            <h3 class="text-3xl font-bold mb-4 font-serif text-blacklist-red">Episode 1: Pilot</h3>
-                            <p class="text-lg leading-relaxed opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                                Ex-government agent and one of the FBI's Most Wanted fugitives, Raymond "Red" Reddington mysteriously surrenders to the FBI with an offer to help catch dangerous criminals. His condition: he must work directly with new profiler Elizabeth Keen.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="bg-gradient-to-r from-black to-blacklist-red/20 p-[1px] rounded-xl episode-card group">
-                        <div class="bg-black/90 p-8 rounded-xl backdrop-blur-lg transition-all duration-300 hover:bg-black/70">
-                            <h3 class="text-3xl font-bold mb-4 font-serif text-blacklist-red">Episode 2: The Freelancer</h3>
-                            <p class="text-lg leading-relaxed opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                                Red and Liz work together to stop a dangerous assassin known as "The Freelancer" from carrying out his next hit. As they delve deeper into the case, Liz begins to question Red's true motives for choosing her as his partner.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="bg-gradient-to-r from-black to-blacklist-red/20 p-[1px] rounded-xl episode-card group">
-                        <div class="bg-black/90 p-8 rounded-xl backdrop-blur-lg transition-all duration-300 hover:bg-black/70">
-                            <h3 class="text-3xl font-bold mb-4 font-serif text-blacklist-red">Episode 3: Wujing</h3>
-                            <p class="text-lg leading-relaxed opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                                Red brings a new Blacklister case to the FBI, sending Liz and Ressler on an undercover mission to take down a dangerous Chinese spy. Meanwhile, Liz struggles to trust Red as she tries to keep her marriage to Tom from falling apart.
-                            </p>
-                        </div>
-                    </div>
+    <section id="intel" class="py-20 relative bg-charcoal">
+        <div class="container mx-auto px-6">
+            <h2 class="text-5xl font-cinzel text-center mb-16 text-crimson">Classified Intel</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="bg-deep-black cinematic-border p-8">
+                    <h3 class="text-2xl font-cinzel mb-4">The Blacklist</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        A comprehensive database of the world's most dangerous criminals, 
+                        compiled by Raymond Reddington himself. Each number represents a 
+                        target of significant importance to the criminal underworld.
+                    </p>
+                </div>
+                <div class="bg-deep-black cinematic-border p-8">
+                    <h3 class="text-2xl font-cinzel mb-4">The Fulcrum</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        A mysterious device containing highly sensitive information about a 
+                        global conspiracy. Its contents could reshape the balance of power 
+                        in the world.
+                    </p>
                 </div>
             </div>
-            <div class="absolute top-0 left-0 w-full h-20 bg-blacklist-dark clip-triangle transform rotate-180"></div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="bg-black py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-lg"> <span id="current-year"></span> dominiks-blacklist</p>
+    <section id="locations" class="py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-5xl font-cinzel text-center mb-16 text-crimson">Key Locations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div  class="bg-charcoal cinematic-border p-6">
+                    <h3 class="text-2xl font-cinzel mb-4">FBI Black Site</h3>
+                    <p class="text-gray-400">The secret headquarters where the task force operates, hidden within the Post Office building.</p>
+                </div>
+                <div class="bg-charcoal cinematic-border p-6">
+                    <h3 class="text-2xl font-cinzel mb-4">Red's Safe Houses</h3>
+                    <p class="text-gray-400">A network of secure locations across the globe, each holding its own secrets and resources.</p>
+                </div>
+                <div class="bg-charcoal cinematic-border p-6">
+                    <h3 class="text-2xl font-cinzel mb-4">The Jet</h3>
+                    <p class="text-gray-400">Reddington's luxurious private jet, serving as both a mobile command center and a symbol of his influence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-deep-black border-t border-crimson/20 py-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>© <span id="current-year"></span> The Blacklist | Enter at your own risk</p>
         </div>
     </footer>
 
     <script>
-        gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-        const cursor = document.querySelector("#cursor");
-        document.addEventListener("mousemove", (e) => {
-            gsap.to(cursor, {duration: 0.5, x: e.clientX, y: e.clientY});
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80 },
+                color: { value: "#990000" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true
+                }
+            }
         });
 
-        gsap.to("#navbar", {
-            scrollTrigger: {
-                start: "top top",
-                end: "+=100",
-                toggleActions: "play none none reverse"
-            },
-            backgroundColor: "rgba(10, 10, 10, 0.9)",
-            backdropFilter: "blur(10px)",
-            padding: "0.5rem 0",
-            duration: 0.5,
-            ease: "power2.inOut"
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.from(".hero h1", {
+            duration: 1.5,
+            y: 100,
+            opacity: 0,
+            ease: "power4.out"
         });
 
-        gsap.to("#hero-title", {
-            duration: 2,
-            text: "Welcome to The Blacklist",
-            ease: "none"
-        });
-
-        gsap.to("#about-text", {
-            scrollTrigger: {
-                trigger: "#about-text",
-                start: "top 80%",
-                toggleActions: "play none none none"
-            },
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out"
-        });
-
-        gsap.utils.toArray(".character-card").forEach((card, i) => {
+        gsap.utils.toArray(".group").forEach((card, i) => {
             gsap.from(card, {
                 scrollTrigger: {
                     trigger: card,
                     start: "top bottom-=100",
-                    toggleActions: "play none none none"
                 },
-                y: 100,
+                y: 50,
                 opacity: 0,
-                duration: 0.8,
-                delay: i * 0.2,
-                ease: "power3.out"
+                duration: 1,
+                delay: i * 0.2
             });
-        });
-
-        
-        gsap.utils.toArray(".episode-card").forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top bottom-=100",
-                    toggleActions: "play none none none"
-                },
-                x: i % 2 === 0 ? -100 : 100,
-                opacity: 0,
-                duration: 0.8,
-                delay: i * 0.2,
-                ease: "power3.out"
-            });
-        });
-
-        gsap.to("#home", {
-            scrollTrigger: {
-                scrub: true
-            },
-            y: (i, target) => -ScrollTrigger.maxScroll(window) * 0.1,
-            ease: "none"
-        });
-
-        gsap.utils.toArray(".nav-link").forEach(link => {
-            const linkHover = gsap.timeline({paused: true});
-            linkHover.to(link, {color: "#8B0000", duration: 0.3})
-                     .to(link, {scale: 1.1, duration: 0.2}, 0);
-            
-            link.addEventListener("mouseenter", () => linkHover.play());
-            link.addEventListener("mouseleave", () => linkHover.reverse());
-        });
-
-        gsap.to(".clip-triangle", {
-            scrollTrigger: {
-                trigger: "#about",
-                start: "top center",
-                end: "bottom center",
-                scrub: true
-            },
-            rotation: 360,
-            ease: "none"
         });
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                gsap.to(window, {duration: 1, scrollTo: target, ease: "power2.inOut"});
-            });
-        });
-
-        gsap.to(".bg-gradient", {
-            scrollTrigger: {
-                trigger: ".bg-gradient",
-                start: "top center",
-                end: "bottom center",
-                scrub: 1
-            },
-            backgroundPosition: "100% 100%",
-            ease: "none"
-        });
-
-        gsap.utils.toArray(".character-card").forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top bottom-=100",
-                    toggleActions: "play none none none"
-                },
-                y: 100,
-                opacity: 0,
-                duration: 1,
-                delay: i * 0.2,
-                ease: "power4.out"
-            });
-        });
-
-        gsap.utils.toArray("section").forEach(section => {
-            gsap.to(section, {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                },
-                y: (i, target) => -ScrollTrigger.maxScroll(window) * target.dataset.speed || 0,
-                ease: "none"
-            });
-        });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollToPlugin.min.js"></script>
 </body>
 </html>
