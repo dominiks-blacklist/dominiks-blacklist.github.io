@@ -371,6 +371,56 @@
             max-width: 100%;
             height: auto;
         }
+
+        .nav-tree {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-tree li {
+            margin: 0.5rem 0;
+        }
+
+        .nav-tree a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-tree a:hover {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+        }
+
+        .nav-tree a.active {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .folder-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .folder-icon {
+            transition: transform 0.2s;
+        }
+
+        .folder-content {
+            display: none;
+        }
+
+        .folder-content.open {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -397,12 +447,20 @@
             <nav class="doc-nav">
                 <div>
                     <h5>Dokumente</h5>
-                    <ul>
+                    <ul class="nav-tree">
                         <li><a href="#" data-file="README.md">Überblick</a></li>
-                        <li><a href="#" data-file="folge1.md">Folge 1</a></li>
-                        <li><a href="#" data-file="folge2.md">Folge 2</a></li>
-                        <li><a href="#" data-file="folge3.md">Folge 3</a></li>
-                        <li><a href="#" data-file="folge4.md">Folge 4</a></li>
+                        <li class="folder">
+                            <div class="folder-header">
+                                <i class="fas fa-chevron-right folder-icon"></i>
+                                <span>Staffel 1</span>
+                            </div>
+                            <ul class="folder-content">
+                                <li><a href="#" data-file="folge1.md">Folge 1</a></li>
+                                <li><a href="#" data-file="folge2.md">Folge 2</a></li>
+                                <li><a href="#" data-file="folge3.md">Folge 3</a></li>
+                                <li><a href="#" data-file="folge4.md">Folge 4</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </nav>
