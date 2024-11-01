@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether Terminal - Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.7/marked.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #dc2626;
+            --text-color: #1f2937;
+            --bg-color: #ffffff;
+            --nav-bg: #f8fafc;
+            --link-color: #991b1b;
+            --border-color: #e5e7eb;
+            --sidebar-bg: #f8fafc;
+            --code-bg: #1e293b;
+            --hover-bg: #fee2e2;
+        }
+
+        body.dark {
+            --primary-color: #ef4444;
+            --text-color: #f3f4f6;
+            --bg-color: #0f0f0f;
+            --nav-bg: #1a1a1a;
+            --link-color: #f87171;
+            --border-color: #262626;
+            --sidebar-bg: #1a1a1a;
+            --code-bg: #000000;
+            --hover-bg: #450a0a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        * {
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .logo-link:hover {
+            background: var(--hover-bg);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #theme-toggle {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        #theme-toggle:hover {
+            background: var(--hover-bg);
+            transform: translateY(-1px);
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.95rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link:hover {
+            background: var(--hover-bg);
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 100px 1rem 2rem;
+            display: grid;
+            grid-template-columns: minmax(250px, 300px) minmax(0, 1fr) minmax(250px, 300px);
+            gap: 1.5rem;
+        }
+
+        .doc-nav {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-right: 20px;
+            background: var(--sidebar-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .doc-nav h5 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 1.5rem 0 1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .doc-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .doc-nav li {
+            margin: 0.5rem 0;
+        }
+
+        .doc-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .doc-nav a:hover {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+        }
+
+        .doc-nav a.active {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .markdown-body {
+            overflow-x: auto;
+            max-width: 100%;
+            margin: 0;
+            background: var(--bg-color);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .markdown-body h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--primary-color);
+        }
+
+        .markdown-body h2 {
+            font-size: 1.75rem;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .markdown-body h3 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--text-color);
+        }
+
+        .markdown-body p {
+            margin: 1rem 0;
+        }
+
+        .markdown-body a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body code {
+            background: var(--code-bg);
+            color: #e5e7eb;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .markdown-body pre {
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: var(--code-bg);
+            padding: 1.25rem;
+            border-radius: 8px;
+        }
+
+        .markdown-body pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            padding-left: 2rem;
+        }
+
+        .toc {
+            position: sticky;
+            top: 80px;
+            font-size: 0.9rem;
+            background: var(--sidebar-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin: 0.5rem 0;
+        }
+
+        .toc a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .toc a:hover {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+        }
+
+        #loading-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-content {
+            background: var(--bg-color);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        
+        @media (max-width: 1400px) {
+            .container {
+                grid-template-columns: minmax(220px, 250px) minmax(0, 1fr) minmax(220px, 250px);
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: minmax(220px, 250px) minmax(0, 1fr);
+            }
+
+            aside:last-child {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding-top: 140px;
+            }
+
+            aside:first-child {
+                display: none;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        
+        .markdown-body table {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo.svg" alt="Aether Logo" style="height: 40px; width: 40px;">
+                <span class="logo-text">Dominiks-Blacklist Dokumentation</span>
+            </a>
+            <div class="header-actions">
+                <button id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                    <span class="theme-text">Dunkelmodus</span>
+                </button>
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Zurück zur Startseite</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside>
+            <nav class="doc-nav">
+                <div>
+                    <h5>Erste Schritte</h5>
+                    <ul>
+                        <li><a href="#" data-file="README.md">Überblick</a></li>
+                        <li><a href="#" data-file="getting-started.md">Erste Schritte</a></li>
+                        <li><a href="#" data-file="installation.md">Installation</a></li>
+                        <li><a href="#" data-file="prequisites.md">Voraussetzungen</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <main>
+            <div class="markdown-body" id="markdown-content"></div>
+            <div id="loading-indicator" class="hidden">
+                <div class="loading-content">
+                    <div style="width: 20px; height: 20px; border: 2px solid var(--link-color); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <span>Dokumentation wird geladen...</span>
+                </div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="toc">
+                <h5 style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; color: var(--primary-color);">
+                    Auf dieser Seite
+                </h5>
+                <nav id="toc"></nav>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = themeToggle.querySelector('i');
+
+        function updateTheme(isDark) {
+            body.classList.toggle('dark', isDark);
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            document.querySelector('.theme-text').textContent = isDark ? 'Hellmodus' : 'Dunkelmodus';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        if (localStorage.theme === 'dark' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            updateTheme(true);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            updateTheme(!body.classList.contains('dark'));
+        });
+
+        function showLoading() {
+            document.getElementById('loading-indicator').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-indicator').style.display = 'none';
+        }
+
+        marked.setOptions({
+            renderer: new marked.Renderer(),
+            highlight: function(code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+                return code;
+            },
+            pedantic: false,
+            gfm: true,
+            breaks: true,
+            sanitize: false,
+            smartLists: true,
+            smartypants: true,
+            xhtml: false
+        });
+
+        async function loadMarkdown(path = 'documentation/README.md') {
+            showLoading();
+            try {
+                const response = await fetch(path);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const text = await response.text();
+                
+                const contentDiv = document.getElementById('markdown-content');
+                const tocDiv = document.getElementById('toc');
+                
+                contentDiv.innerHTML = marked.parse(text);
+                
+                generateTOC();
+                
+                updateNavigation(path);
+                
+                Prism.highlightAll();
+                
+                const cleanPath = path.replace('documentation/', '');
+                history.pushState(null, '', `?doc=${cleanPath}`);
+            } catch (error) {
+                console.error('Error loading markdown:', error);
+                document.getElementById('markdown-content').innerHTML = `
+                    <div style="background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 4px;">
+                        <h2 style="margin: 0 0 0.5rem 0;">Fehler beim Laden der Dokumentation</h2>
+                        <p style="margin: 0;">${error.message}</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.875rem;">Pfad: ${path}</p>
+                    </div>
+                `;
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function generateTOC() {
+            const headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3');
+            const toc = document.getElementById('toc');
+            const ul = document.createElement('ul');
+
+            headings.forEach(heading => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                const id = heading.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                
+                heading.id = id;
+                a.href = `#${id}`;
+                a.textContent = heading.textContent;
+                a.style.paddingLeft = heading.tagName === 'H3' ? '1rem' : '0';
+                
+                li.appendChild(a);
+                ul.appendChild(li);
+            });
+
+            toc.innerHTML = '';
+            toc.appendChild(ul);
+        }
+
+        function updateNavigation(currentPath) {
+            const fileName = currentPath.split('/').pop();
+            document.querySelectorAll('.doc-nav a').forEach(link => {
+                if (link.getAttribute('data-file') === fileName) {
+                    link.style.color = 'var(--link-color)';
+                    link.style.fontWeight = 'bold';
+                } else {
+                    link.style.color = '';
+                    link.style.fontWeight = '';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const doc = params.get('doc') || 'README.md';
+            loadMarkdown(`documentation/${doc}`);
+        });
+
+        document.querySelectorAll('.doc-nav a[data-file]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadMarkdown(`documentation/${link.getAttribute('data-file')}`);
+            });
+        });
+
+        document.addEventListener('click', e => {
+            if (e.target.tagName === 'A' && e.target.hash) {
+                e.preventDefault();
+                const element = document.querySelector(e.target.hash);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
