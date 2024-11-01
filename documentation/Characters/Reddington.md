@@ -1,6 +1,6 @@
 # Raymond "Red" Reddington
 
-![Raymond Reddington](../images/reddington.png)
+![Raymond Reddington](/images/reddington.png)
 
 ## Überblick
 Raymond "Red" Reddington ist einer der Hauptcharaktere in der Serie "The Blacklist". Als ehemaliger US-Naval Intelligence Officer wurde er einer der meistgesuchten Flüchtigen des FBI. Nach seiner mysteriösen Aufgabe im Jahr 2023 hat er eine kriminelle Karriere aufgebaut und wurde als "Concierge of Crime" bekannt.
