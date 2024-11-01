@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organisationsstruktur</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         body {
             background-color: #1a1a1a;
@@ -14,7 +13,7 @@
             padding: 20px;
         }
 
-        .csv-container {
+        .image-container {
             max-width: 1400px;
             margin: 2rem auto;
             padding: 30px;
@@ -35,50 +34,49 @@
             padding-bottom: 15px;
         }
 
-        .csv-table {
+        .org-image {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 20px;
+            height: auto;
             border-radius: 8px;
-            overflow: hidden;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
+            transition: transform 0.3s ease;
         }
 
-        .csv-table th {
-            background: #ff0000;
+        .org-image:hover {
+            transform: scale(1.01);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background-color: #ff0000;
             color: white;
-            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
             font-weight: 600;
-            text-align: left;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }
-
-        .csv-table td {
-            padding: 12px 15px;
-            border: 1px solid #3d3d3d;
-            color: #e0e0e0;
-        }
-
-        .csv-table tr:nth-child(even) {
-            background-color: #252525;
-        }
-
-        .csv-table tr:nth-child(odd) {
-            background-color: #2d2d2d;
-        }
-
-        .csv-table tr:hover td {
-            background-color: #353535;
-            color: #ff0000;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 2px 10px rgba(255, 0, 0, 0.3);
+            z-index: 1000;
         }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #ff0000;
-            font-style: italic;
+        .back-button:hover {
+            background-color: #ff3333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .back-button:active {
+            transform: translateY(0);
         }
 
         ::-webkit-scrollbar {
@@ -100,7 +98,7 @@
         }
 
         @media (max-width: 768px) {
-            .csv-container {
+            .image-container {
                 padding: 15px;
                 margin: 1rem;
             }
@@ -109,64 +107,21 @@
                 font-size: 1.8rem;
             }
 
-            .csv-table {
+            .back-button {
+                position: static;
                 display: block;
-                overflow-x: auto;
-                white-space: nowrap;
+                margin: 20px auto;
+                text-align: center;
+                width: fit-content;
             }
         }
     </style>
 </head>
 <body>
-    <div class="csv-container">
+    <a href="index.html" class="back-button">Zurück zur Homepage</a>
+    <div class="image-container">
         <h1>Organisationsstruktur</h1>
-        <div id="csv-display">
-            <div class="loading">Lade Organisationsstruktur...</div>
-        </div>
+        <img src="organisationsstruktur.png" alt="Organisationsstruktur" class="org-image">
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('organisationsstruktur.csv')
-                .then(response => response.text())
-                .then(csvData => {
-                    Papa.parse(csvData, {
-                        complete: function(results) {
-                            const data = results.data;
-                            let tableHTML = '<table class="csv-table">';
-                            
-                            tableHTML += '<tr>';
-                            data[0].forEach(header => {
-                                tableHTML += `<th>${header}</th>`;
-                            });
-                            tableHTML += '</tr>';
-                            
-                            for(let i = 1; i < data.length; i++) {
-                                if (data[i].some(cell => cell.trim() !== '')) { 
-                                    tableHTML += '<tr>';
-                                    data[i].forEach(cell => {
-                                        tableHTML += `<td>${cell}</td>`;
-                                    });
-                                    tableHTML += '</tr>';
-                                }
-                            }
-                            
-                            tableHTML += '</table>';
-                            document.getElementById('csv-display').innerHTML = tableHTML;
-                        },
-                        error: function(error) {
-                            document.getElementById('csv-display').innerHTML = 
-                                '<div class="error">Fehler beim Laden der CSV-Datei.</div>';
-                            console.error('Error:', error);
-                        }
-                    });
-                })
-                .catch(error => {
-                    document.getElementById('csv-display').innerHTML = 
-                        '<div class="error">Fehler beim Laden der CSV-Datei.</div>';
-                    console.error('Error:', error);
-                });
-        });
-    </script>
 </body>
 </html>
