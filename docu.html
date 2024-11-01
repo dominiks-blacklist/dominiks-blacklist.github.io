@@ -407,6 +407,15 @@
             margin: 0.5rem 0;
         }
 
+        .folder-content {
+            display: none;
+            padding-left: 1.5rem;
+        }
+
+        .folder.open > .folder-content {
+            display: block;
+        }
+
         .folder-header {
             display: flex;
             align-items: center;
@@ -417,28 +426,12 @@
             transition: all 0.2s;
         }
 
-        .folder-header:hover {
-            background: var(--hover-bg);
-            color: var(--primary-color);
-        }
-
         .folder-icon {
-            transition: transform 0.2s;
+            transition: transform 0.2s ease;
         }
 
         .folder.open > .folder-header .folder-icon {
             transform: rotate(90deg);
-        }
-
-        .folder-content {
-            padding-left: 1.5rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .folder.open > .folder-content {
-            max-height: 1000px;
         }
     </style>
 </head>
@@ -633,6 +626,15 @@
             const params = new URLSearchParams(window.location.search);
             const doc = params.get('doc') || 'README.md';
             loadMarkdown(`documentation/${doc}`);
+
+            document.querySelectorAll('.folder-header').forEach(header => {
+                header.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const folder = header.parentElement;
+                    folder.classList.toggle('open');
+                });
+            });
 
             document.querySelectorAll('.nav-tree a[data-file]').forEach(link => {
                 link.addEventListener('click', (e) => {
