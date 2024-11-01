@@ -527,11 +527,13 @@
         });
 
         function showLoading() {
-            document.getElementById('loading-indicator').style.display = 'flex';
+            const loader = document.getElementById('loading-indicator');
+            loader.style.display = 'flex';
         }
 
         function hideLoading() {
-            document.getElementById('loading-indicator').style.display = 'none';
+            const loader = document.getElementById('loading-indicator');
+            loader.style.display = 'none';
         }
 
         marked.setOptions({
@@ -554,23 +556,29 @@
         async function loadMarkdown(path = 'documentation/README.md') {
             showLoading();
             try {
-                const response = await fetch(path);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const text = await response.text();
+                const response = await fetch(path, {
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
+                    }
+                });
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const text = await response.text();
                 const contentDiv = document.getElementById('markdown-content');
-                const tocDiv = document.getElementById('toc');
                 
                 contentDiv.innerHTML = marked.parse(text);
                 
                 generateTOC();
-                
                 updateNavigation(path);
-                
                 Prism.highlightAll();
                 
                 const cleanPath = path.replace('documentation/', '');
                 history.pushState(null, '', `?doc=${cleanPath}`);
+                
             } catch (error) {
                 console.error('Error loading markdown:', error);
                 document.getElementById('markdown-content').innerHTML = `
@@ -621,102 +629,17 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            function createFolderStructure(path) {
-                const parts = path.split('/');
-                let currentPath = '';
-                let structure = {};
-                
-                parts.forEach(part => {
-                    currentPath = currentPath ? `${currentPath}/${part}` : part;
-                    if (!structure[currentPath]) {
-                        structure[currentPath] = {
-                            name: part,
-                            isFile: part.includes('.'),
-                            path: currentPath,
-                            children: {}
-                        };
-                    }
-                });
-                
-                return structure;
-            }
-
-            function buildNavHTML(structure, level = 0) {
-                let html = '<ul class="nav-tree">';
-                
-                const items = Object.values(structure).sort((a, b) => {
-                    if (a.isFile === b.isFile) return a.name.localeCompare(b.name);
-                    return a.isFile ? 1 : -1;
-                });
-
-                items.forEach(item => {
-                    if (item.isFile) {
-                        html += `<li><a href="#" data-file="${item.path}">${item.name.replace('.md', '')}</a></li>`;
-                    } else {
-                        html += `
-                            <li class="folder">
-                                <div class="folder-header">
-                                    <i class="fas fa-chevron-right folder-icon"></i>
-                                    <span>${item.name}</span>
-                                </div>
-                                <div class="folder-content">
-                                    ${buildNavHTML(item.children, level + 1)}
-                                </div>
-                            </li>`;
-                    }
-                });
-                
-                html += '</ul>';
-                return html;
-            }
-
-            // Add here, when new Entry is added
-            const paths = [
-                'README.md',
-                'Staffel 1/folge1.md',
-                'Staffel 1/folge2.md',
-                'Staffel 1/folge3.md',
-                'Staffel 1/folge4.md'
-            ];
-
-            let structure = {};
-            paths.forEach(path => {
-                const folders = createFolderStructure(path);
-                structure = { ...structure, ...folders };
-            });
-
-            const nav = document.querySelector('.doc-nav > div');
-            nav.innerHTML = `
-                <h5>Dokumente</h5>
-                ${buildNavHTML(structure)}
-            `;
-
-            document.querySelectorAll('.folder-header').forEach(header => {
-                header.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const folder = header.parentElement;
-                    folder.classList.toggle('open');
-                    
-                    const folderPath = header.querySelector('span').textContent;
-                    const folderStates = JSON.parse(localStorage.getItem('folderStates') || '{}');
-                    folderStates[folderPath] = folder.classList.contains('open');
-                    localStorage.setItem('folderStates', JSON.stringify(folderStates));
-                });
-            });
-
-            const folderStates = JSON.parse(localStorage.getItem('folderStates') || '{}');
-            document.querySelectorAll('.folder').forEach(folder => {
-                const folderName = folder.querySelector('.folder-header span').textContent;
-                if (folderStates[folderName]) {
-                    folder.classList.add('open');
-                }
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const doc = params.get('doc') || 'README.md';
+            loadMarkdown(`documentation/${doc}`);
 
             document.querySelectorAll('.nav-tree a[data-file]').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    loadMarkdown(`documentation/${link.getAttribute('data-file')}`);
+                    e.stopPropagation();
+                    const path = `documentation/${link.getAttribute('data-file')}`;
+                    loadMarkdown(path);
                 });
             });
         });
