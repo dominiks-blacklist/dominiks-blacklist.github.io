@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organisationsstruktur</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         body {
             background-color: #1a1a1a;
@@ -14,7 +13,7 @@
             padding: 20px;
         }
 
-        .excel-container {
+        .sheet-container {
             max-width: 1400px;
             margin: 2rem auto;
             padding: 30px;
@@ -35,68 +34,14 @@
             padding-bottom: 15px;
         }
 
-        .excel-table {
+        .sheets-iframe {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin-top: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .excel-table th {
-            background: #ff0000;
-            color: white;
-            padding: 15px;
-            font-weight: 600;
-            text-align: left;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            height: 800px;
             border: none;
-        }
-
-        .excel-table td {
-            padding: 12px 15px;
-            border: 1px solid #3d3d3d;
-            color: #e0e0e0;
-            background: #2d2d2d;
-        }
-
-        .excel-table tr:nth-child(even) td {
-            background-color: #252525;
-        }
-
-        .excel-table tr:hover td {
-            background-color: #353535;
-            color: #ff0000;
-            transition: all 0.3s ease;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 30px;
-            font-style: italic;
-            color: #ff0000;
-            font-size: 1.2rem;
-            animation: pulse 2s infinite;
-        }
-
-        .error {
-            color: #ff0000;
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 0, 0, 0.1);
             border-radius: 8px;
-            border: 1px solid #ff0000;
+            background: transparent;
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
-
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
             height: 10px;
@@ -115,9 +60,8 @@
             background: #ff3333;
         }
 
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .excel-container {
+            .sheet-container {
                 padding: 15px;
                 margin: 1rem;
             }
@@ -126,67 +70,21 @@
                 font-size: 1.8rem;
             }
 
-            .excel-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-
-            .excel-table th,
-            .excel-table td {
-                padding: 10px;
+            .sheets-iframe {
+                height: 600px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="excel-container">
+    <div class="sheet-container">
         <h1>Organisationsstruktur</h1>
-        <div id="excel-display">
-            <div class="loading">Lade Organisationsstruktur...</div>
-        </div>
+        <iframe 
+            class="sheets-iframe"
+            src="https://docs.google.com/spreadsheets/d/1j4nWp7sTQ1cukp-8Jb89UYguUWfb76ShPYqEIF1UivQ/edit?gid=0&range=B8:F29&embedded=true&rm=minimal&chrome=false"
+            frameborder="0"
+            allowfullscreen>
+        </iframe>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            async function loadExcel() {
-                try {
-                    const response = await fetch('Organisationsstruktur.xlsx');
-                    const arrayBuffer = await response.arrayBuffer();
-                    const data = new Uint8Array(arrayBuffer);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    
-                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-                    
-                    let tableHTML = '<table class="excel-table">';
-                    
-                    tableHTML += '<tr>';
-                    jsonData[0].forEach(header => {
-                        tableHTML += `<th>${header}</th>`;
-                    });
-                    tableHTML += '</tr>';
-                    
-                    for(let i = 1; i < jsonData.length; i++) {
-                        tableHTML += '<tr>';
-                        jsonData[i].forEach(cell => {
-                            tableHTML += `<td>${cell || ''}</td>`;
-                        });
-                        tableHTML += '</tr>';
-                    }
-                    
-                    tableHTML += '</table>';
-                    document.getElementById('excel-display').innerHTML = tableHTML;
-                    
-                } catch (error) {
-                    document.getElementById('excel-display').innerHTML = 
-                        '<div class="error">Fehler beim Laden der Datei. Bitte stellen Sie sicher, dass die Datei vorhanden ist.</div>';
-                    console.error('Error loading Excel file:', error);
-                }
-            }
-
-            loadExcel();
-        });
-    </script>
 </body>
 </html>
