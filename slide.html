@@ -204,6 +204,41 @@
                 font-size: 0.9rem;
             }
         }
+
+        .filter-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .author-filter {
+            background: rgba(26, 26, 26, 0.9);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .author-filter:hover {
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                top: 10px;
+                right: 10px;
+            }
+
+            .author-filter {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -211,6 +246,14 @@
         <i class="fas fa-home"></i>
         <span>Zurück zur Homepage</span>
     </a>
+
+    <div class="filter-container">
+        <select id="authorFilter" class="author-filter">
+            <option value="all">Alle Autoren</option>
+            <option value="Raymond Reddington">Raymond Reddington</option>
+            <option value="Tom Keen">Tom Keen</option>
+        </select>
+    </div>
 
     <div class="slideshow-container">
         <div class="slide active">
@@ -447,17 +490,149 @@
             {
                 text: "Ich wollte nur ein besseres Leben.",
                 author: "Tom Keen"
+            },
+            {
+                text: "Es gibt zwei Arten von Menschen in dieser Welt: diejenigen, die Macht haben, und diejenigen, die sie suchen.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Der Schlüssel zum Erfolg ist, niemals zu zeigen, was du wirklich denkst.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "In der Welt der Kriminalität gibt es keine Freunde, nur Geschäftspartner.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Wenn du wissen willst, wer jemand wirklich ist, schau dir an, wie er andere behandelt, wenn er nichts von ihnen braucht.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Eine gute Täuschung ist oft besser als eine schlechte Wahrheit.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Es gibt nichts Gefährlicheres als eine verzweifelte Person, die nichts mehr zu verlieren hat.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Manchmal ist das Schwierigste, sich selbst zu vertrauen.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Ich habe gelernt, dass die meisten Menschen lieber die einfache Lüge glauben als die unbequeme Wahrheit.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Die meisten Menschen wissen nicht, wie sie ihre eigenen Schwächen zu ihrem Vorteil nutzen können.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Jeder Mensch hat einen Preis. Die Frage ist nur, ob du bereit bist, ihn zu zahlen.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Wenn du weißt, wie du Informationen nutzen kannst, hast du die Kontrolle.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Ein erfolgreicher Mensch ist der, der nicht aufhört, wenn er müde ist, sondern wenn er fertig ist.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Eine gute Täuschung kann alles verändern.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Wenn du einem Menschen lange genug zuhörst, wirst du herausfinden, was er wirklich will.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Manchmal muss man Entscheidungen treffen, die einem nicht gefallen, weil die Alternative schlimmer ist.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Die Wahrheit ist oft unangenehm, aber sie ist immer notwendig.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Die beste Verteidigung ist eine gute Ablenkung.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Wenn du erfolgreich sein willst, musst du bereit sein, Opfer zu bringen.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Du kannst nicht immer gewinnen, aber du kannst lernen, wie du mit Niederlagen umgehst.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Die besten Verbindungen sind die, die niemand kennt.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Ein erfolgreiches Leben ist nicht das Ergebnis des Zufalls, sondern der Planung.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Die meisten Menschen verstehen nicht, dass jede Entscheidung Konsequenzen hat.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Ein Mensch ist nur so gut wie sein Ruf.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Wenn du weißt, wie du Menschen beeinflussen kannst, kannst du alles erreichen.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Die größten Fehler kommen oft aus Überheblichkeit.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Manchmal ist es besser, einen Schritt zurückzutreten und das Gesamtbild zu sehen.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Wenn du erfolgreich sein willst, musst du bereit sein, Risiken einzugehen.",
+                author: "Raymond Reddington"
+            },
+            {
+                text: "Die beste Strategie ist, immer einen Schritt voraus zu sein.",
+                author: "Raymond Reddington"
             }
         ];
 
         let currentSlide = 0;
         let slideInterval;
+        let filteredQuotes = [];
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function filterAndShuffleQuotes() {
+            const selectedAuthor = document.getElementById('authorFilter').value;
+            filteredQuotes = selectedAuthor === 'all' 
+                ? [...quotes] 
+                : quotes.filter(quote => quote.author === selectedAuthor);
+            shuffleArray(filteredQuotes);
+            currentSlide = 0;
+            createSlides();
+            startSlideTimer();
+        }
 
         function createSlides() {
             const container = document.querySelector('.slideshow-container');
             container.innerHTML = ''; 
 
-            quotes.forEach((quote, index) => {
+            filteredQuotes.forEach((quote, index) => {
                 const slide = document.createElement('div');
                 slide.className = `slide ${index === 0 ? 'active' : ''}`;
                 slide.innerHTML = `
@@ -469,12 +644,12 @@
 
             const prevButton = document.createElement('button');
             prevButton.className = 'nav-button prev';
-            prevButton.innerHTML = '❮';
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
             prevButton.onclick = () => changeSlide(-1);
 
             const nextButton = document.createElement('button');
             nextButton.className = 'nav-button next';
-            nextButton.innerHTML = '❯';
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
             nextButton.onclick = () => changeSlide(1);
 
             container.appendChild(prevButton);
@@ -482,7 +657,7 @@
 
             const dotsContainer = document.createElement('div');
             dotsContainer.className = 'dots';
-            quotes.forEach((_, index) => {
+            filteredQuotes.forEach((_, index) => {
                 const dot = document.createElement('span');
                 dot.className = `dot ${index === 0 ? 'active' : ''}`;
                 dot.onclick = () => goToSlide(index);
@@ -512,6 +687,8 @@
             const slides = document.querySelectorAll('.slide');
             const dots = document.querySelectorAll('.dot');
 
+            if (slides.length === 0) return;
+
             if (index >= slides.length) index = 0;
             if (index < 0) index = slides.length - 1;
 
@@ -525,8 +702,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            createSlides();
-            startSlideTimer();
+            const authorFilter = document.getElementById('authorFilter');
+            authorFilter.addEventListener('change', filterAndShuffleQuotes);
+            
+            filterAndShuffleQuotes();
         });
     </script>
 </body>
