@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organisationsstruktur</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         body {
             background-color: #1a1a1a;
@@ -13,7 +14,7 @@
             padding: 20px;
         }
 
-        .image-container {
+        .csv-container {
             max-width: 1400px;
             margin: 2rem auto;
             padding: 30px;
@@ -34,18 +35,44 @@
             padding-bottom: 15px;
         }
 
-        .org-image {
+        .csv-table {
             width: 100%;
-            height: auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
             border-radius: 8px;
-            display: block;
-            margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
-            transition: transform 0.3s ease;
+            overflow: hidden;
         }
 
-        .org-image:hover {
-            transform: scale(1.01);
+        .csv-table th {
+            background: #ff0000;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #ff3333;
+        }
+
+        .csv-table td {
+            padding: 12px 15px;
+            border: 1px solid #3d3d3d;
+            color: #e0e0e0;
+        }
+
+        .csv-table tr:nth-child(even) {
+            background-color: #252525;
+        }
+
+        .csv-table tr:nth-child(odd) {
+            background-color: #2d2d2d;
+        }
+
+        .csv-table tr:hover td {
+            background-color: #353535;
+            color: #ff0000;
+            transition: all 0.3s ease;
         }
 
         .back-button {
@@ -75,8 +102,27 @@
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
         }
 
-        .back-button:active {
-            transform: translateY(0);
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #ff0000;
+            font-style: italic;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .error {
+            color: #ff0000;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid #ff0000;
         }
 
         ::-webkit-scrollbar {
@@ -98,7 +144,7 @@
         }
 
         @media (max-width: 768px) {
-            .image-container {
+            .csv-container {
                 padding: 15px;
                 margin: 1rem;
             }
@@ -114,152 +160,72 @@
                 text-align: center;
                 width: fit-content;
             }
-        }
 
-        .image-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .image-controls {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 10px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-wrapper:hover .image-controls {
-            opacity: 1;
-        }
-
-        .control-button {
-            background: rgba(255, 0, 0, 0.8);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .control-button:hover {
-            background: rgba(255, 0, 0, 1);
-            transform: translateY(-2px);
-        }
-
-        .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-
-        .popup-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .popup-image {
-            max-width: 100%;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
-        }
-
-        .close-popup {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            background: #ff0000;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 16px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .close-popup:hover {
-            background: #ff3333;
-        }
-
-        .fullscreen-image {
-            object-fit: contain;
-            width: 100%;
-            height: 100%;
-            background: black;
+            .csv-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
         }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-button">Zurück zur Homepage</a>
-    <div class="image-container">
+    <div class="csv-container">
         <h1>Organisationsstruktur</h1>
-        <div class="image-wrapper">
-            <img src="organisationsstruktur.png" alt="Organisationsstruktur" class="org-image">
-            <div class="image-controls">
-                <button class="control-button" onclick="openFullscreen()">Vollbild</button>
-                <button class="control-button" onclick="openPopup()">Vergrößern</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="popup-overlay" id="popupOverlay">
-        <div class="popup-content">
-            <button class="close-popup" onclick="closePopup()">Schließen</button>
-            <img src="organisationsstruktur.png" alt="Organisationsstruktur" class="popup-image">
+        <div id="csv-display">
+            <div class="loading">Lade Organisationsstruktur...</div>
         </div>
     </div>
 
     <script>
-        function openFullscreen() {
-            const elem = document.querySelector('.org-image');
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            }
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('org.csv')
+                .then(response => response.text())
+                .then(csvData => {
+                    Papa.parse(csvData, {
+                        complete: function(results) {
+                            const data = results.data;
+                            
+                            while (data.length > 0 && data[data.length - 1].every(cell => !cell.trim())) {
+                                data.pop();
+                            }
 
-        function openPopup() {
-            const popup = document.getElementById('popupOverlay');
-            popup.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closePopup() {
-            const popup = document.getElementById('popupOverlay');
-            popup.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        document.getElementById('popupOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePopup();
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closePopup();
-            }
+                            let tableHTML = '<table class="csv-table">';
+                            
+                            if (data.length > 0) {
+                                tableHTML += '<tr>';
+                                data[0].forEach(header => {
+                                    tableHTML += `<th>${header}</th>`;
+                                });
+                                tableHTML += '</tr>';
+                            }
+                            
+                            for(let i = 1; i < data.length; i++) {
+                                if (data[i].some(cell => cell.trim() !== '')) {
+                                    tableHTML += '<tr>';
+                                    data[i].forEach(cell => {
+                                        tableHTML += `<td>${cell}</td>`;
+                                    });
+                                    tableHTML += '</tr>';
+                                }
+                            }
+                            
+                            tableHTML += '</table>';
+                            document.getElementById('csv-display').innerHTML = tableHTML;
+                        },
+                        error: function(error) {
+                            document.getElementById('csv-display').innerHTML = 
+                                '<div class="error">Fehler beim Laden der CSV-Datei.</div>';
+                            console.error('Error:', error);
+                        }
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('csv-display').innerHTML = 
+                        '<div class="error">Fehler beim Laden der CSV-Datei.</div>';
+                    console.error('Error:', error);
+                });
         });
     </script>
 </body>
