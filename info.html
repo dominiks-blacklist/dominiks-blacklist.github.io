@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Blacklist - Informationen</title>
+    <title>The Blacklist - Info</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'primary': '#E63946',
                         'dark': '#1A1A1A',
                         'darker': '#141414',
                     },
@@ -25,80 +22,52 @@
             }
         }
     </script>
-    <style>
-        .glass-card {
-            background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(8px);
-        }
-        
-        .subtle-gradient {
-            background: linear-gradient(180deg, rgba(230, 57, 70, 0.05) 0%, rgba(230, 57, 70, 0) 100%);
-        }
-    </style>
 </head>
 <body class="bg-darker text-gray-200 font-sans">
-    <nav class="fixed w-full z-50 bg-darker/95 border-b border-gray-800">
+    <nav class="fixed w-full z-50 bg-darker border-b border-gray-800">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <a href="index.html" class="text-2xl font-semibold text-white hover:text-primary transition-colors">
+                <a href="index.html" class="text-xl font-medium text-white">
                     The Blacklist
                 </a>
                 <a href="index.html" 
-                   class="px-6 py-2 rounded-md border border-gray-700 hover:border-primary 
-                          hover:text-primary transition-all duration-300 text-sm">
-                    Zurück zur Hauptseite
+                   class="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors">
+                    Zurück
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="min-h-screen pt-32 pb-16">
+    <main class="min-h-screen pt-24 pb-16">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16">
-                <h1 class="text-4xl md:text-5xl font-semibold text-white mb-4">Informationen</h1>
-                <p class="text-gray-400 max-w-2xl mx-auto">
-                    Tauchen Sie ein in die faszinierende Welt von The Blacklist und entdecken Sie die Geheimnisse 
-                    hinter einer der spannendsten Serien unserer Zeit.
+            <div class="mb-12">
+                <h1 class="text-2xl font-medium text-white mb-3">Info</h1>
+                <p class="text-gray-400 max-w-2xl">
+                    Eine Dokumentation über The Blacklist.
                 </p>
             </div>
             
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-dark rounded-lg p-8 border border-gray-800 hover:border-gray-700 transition-colors">
+            <div class="grid md:grid-cols-2 gap-6 max-w-3xl">
+                <div class="bg-dark p-6 border border-gray-800">
                     <div class="flex flex-col h-full">
-                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
-                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
-                                      d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"/>
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-semibold text-white mb-3">Das Projekt</h2>
-                        <p class="text-gray-400">
-                            Eine sorgfältig kuratierte Sammlung von Dominik, die tiefe Einblicke in die Serie bietet. 
-                            Von detaillierten Charakteranalysen bis hin zu ausführlichen Episodenzusammenfassungen – 
-                            hier finden Sie alles, was das Herz eines The Blacklist-Fans begehrt.
+                        <h2 class="text-lg font-medium text-white mb-2">Über das Projekt</h2>
+                        <p class="text-gray-400 text-sm">
+                            Eine Sammlung von Dominik mit Charakteranalysen und Episodenzusammenfassungen der Serie.
                         </p>
                     </div>
                 </div>
 
-                <div class="bg-dark rounded-lg p-8 border border-gray-800 hover:border-gray-700 transition-colors">
+                <div class="bg-dark p-6 border border-gray-800">
                     <div class="flex flex-col h-full">
-                        <div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
-                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
-                                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                            </svg>
-                        </div>
-                        <h2 class="text-xl font-semibold text-white mb-3">Entwicklung</h2>
-                        <p class="text-gray-400">
-                            Entwickelt mit modernster Technologie von 
+                        <h2 class="text-lg font-medium text-white mb-2">Entwicklung</h2>
+                        <p class="text-gray-400 text-sm">
+                            Entwickelt von 
                             <a href="https://caydendev.github.io" 
-                               class="text-primary hover:text-white transition-colors"
+                               class="text-gray-300 hover:text-white"
                                target="_blank"
                                rel="noopener noreferrer">
                                 Cayden
-                            </a>. 
-                            Diese Plattform vereint innovative Designkonzepte mit optimaler Performance und 
-                            Benutzerfreundlichkeit.
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -106,44 +75,16 @@
         </div>
     </main>
 
-    <footer class="border-t border-gray-800 py-8">
-        <div class="container mx-auto px-6 text-center">
+    <footer class="border-t border-gray-800 py-6">
+        <div class="container mx-auto px-6">
             <p class="text-gray-500 text-sm">
-                © <span id="current-year"></span> The Blacklist | Entwickelt von 
-                <a href="https://caydendev.github.io" 
-                   class="text-primary hover:text-white transition-colors">
-                    Cayden
-                </a>
+                Made in <span id="current-year"></span> | The Blacklist
             </p>
         </div>
     </footer>
 
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
-        
-        gsap.from('nav', { 
-            y: -20, 
-            opacity: 0, 
-            duration: 0.8, 
-            ease: 'power2.out' 
-        });
-        
-        gsap.from('h1', { 
-            y: 20, 
-            opacity: 0, 
-            duration: 0.8, 
-            delay: 0.2, 
-            ease: 'power2.out' 
-        });
-        
-        gsap.from('.bg-dark', { 
-            y: 20, 
-            opacity: 0, 
-            duration: 0.8, 
-            delay: 0.4, 
-            stagger: 0.2, 
-            ease: 'power2.out' 
-        });
     </script>
 </body>
 </html>
