@@ -6,7 +6,7 @@
     <title>The Blacklist - Informationen</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -15,77 +15,189 @@
                 extend: {
                     colors: {
                         'blood-red': '#990000',
-                        'deep-black': '#000000',
-                        'charcoal': '#1a1a1a',
+                        'deep-black': '#030303',
+                        'charcoal': '#121212',
                         'crimson': '#DC143C',
+                        'accent-red': '#FF3850',
+                        'neon-red': '#FF0F4F',
                     },
                     fontFamily: {
-                        'cinzel': ['Cinzel', 'serif'],
-                        'body': ['Roboto', 'sans-serif'],
+                        'display': ['Montserrat', 'sans-serif'],
+                        'body': ['Raleway', 'sans-serif'],
                     },
                 }
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .text-shadow-red {
-                text-shadow: 0 0 10px rgba(220, 20, 60, 0.5);
-            }
-            .cinematic-border {
-                border: 1px solid rgba(220, 20, 60, 0.3);
-            }
+    <style>
+        .glass-card {
+            background: rgba(18, 18, 18, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 15px rgba(255, 15, 79, 0.3),
+                       0 0 30px rgba(255, 15, 79, 0.2),
+                       0 0 45px rgba(255, 15, 79, 0.1);
+        }
+        
+        .animated-gradient {
+            background: linear-gradient(270deg, #FF3850, #DC143C, #990000);
+            background-size: 600% 600%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+        
+        .text-gradient-animated {
+            background: linear-gradient(90deg, #FF3850, #DC143C, #FF3850);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 3s linear infinite;
+        }
+        
+        @keyframes textShine {
+            to { background-position: 200% center; }
+        }
+        
+        .hover-scale {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.03);
         }
     </style>
 </head>
 <body class="bg-deep-black text-white font-body">
-    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-crimson/20">
-        <div class="container mx-auto px-6 py-4">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 z-0">
+        <div class="absolute inset-0 opacity-30" 
+             style="background-image: radial-gradient(circle at 50% 50%, rgba(220, 20, 60, 0.1) 0%, transparent 50%),
+                                    radial-gradient(circle at 80% 20%, rgba(255, 56, 80, 0.1) 0%, transparent 40%);">
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-card">
+        <div class="container mx-auto px-8 py-6">
             <div class="flex justify-between items-center">
-                <a href="index.html" class="text-3xl font-cinzel font-bold text-crimson">
+                <a href="index.html" class="text-4xl font-display font-bold text-gradient-animated hover-scale">
                     The Blacklist
                 </a>
-                <a href="index.html" class="hover:text-crimson transition-colors duration-300">Zurück zur Hauptseite</a>
+                <a href="index.html" 
+                   class="px-8 py-3 rounded-full border border-neon-red/30 hover:border-neon-red 
+                          hover:bg-neon-red/10 transition-all duration-300 font-display text-sm tracking-wider
+                          hover:neon-glow">
+                    ZURÜCK ZUR HAUPTSEITE
+                </a>
             </div>
         </div>
     </nav>
 
-    <main class="min-h-screen pt-32 pb-20">
-        <div class="container mx-auto px-6">
-            <h1 class="text-5xl font-cinzel text-center mb-16 text-crimson">Informationen</h1>
+    <!-- Main Content -->
+    <main class="relative z-10 min-h-screen pt-40 pb-20">
+        <div class="container mx-auto px-8">
+            <div class="text-center mb-20">
+                <h1 class="text-7xl font-display font-bold text-gradient-animated mb-6">Informationen</h1>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                    Tauchen Sie ein in die faszinierende Welt von The Blacklist und entdecken Sie die Geheimnisse 
+                    hinter einer der spannendsten Serien unserer Zeit.
+                </p>
+            </div>
             
-            <div class="max-w-2xl mx-auto space-y-12">
-                <div class="bg-charcoal cinematic-border p-8 rounded-lg">
-                    <h2 class="text-2xl font-cinzel mb-4 text-crimson">Über das Projekt</h2>
-                    <p class="text-gray-300 mb-4">
-                        Inhalte gesammelt und geordnet durch Dominik
-                    </p>
+            <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+                <!-- Project Card -->
+                <div class="glass-card hover-scale rounded-2xl p-10 neon-glow">
+                    <div class="flex flex-col h-full">
+                        <div class="animated-gradient w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                                      d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-display font-bold mb-4 text-gradient-animated">Das Projekt</h2>
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Eine sorgfältig kuratierte Sammlung von Dominik, die tiefe Einblicke in die Serie bietet. 
+                            Von detaillierten Charakteranalysen bis hin zu ausführlichen Episodenzusammenfassungen – 
+                            hier finden Sie alles, was das Herz eines The Blacklist-Fans begehrt.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="bg-charcoal cinematic-border p-8 rounded-lg">
-                    <h2 class="text-2xl font-cinzel mb-4 text-crimson">Entwicklung</h2>
-                    <p class="text-gray-300 mb-4">
-                        Website programmiert / entwickelt von 
-                        <a href="https://caydendev.github.io" 
-                           class="text-crimson hover:text-blood-red transition-colors duration-300"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            Cayden
-                        </a>
-                    </p>
+                <!-- Development Card -->
+                <div class="glass-card hover-scale rounded-2xl p-10 neon-glow">
+                    <div class="flex flex-col h-full">
+                        <div class="animated-gradient w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" 
+                                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-3xl font-display font-bold mb-4 text-gradient-animated">Entwicklung</h2>
+                        <p class="text-gray-300 leading-relaxed text-lg">
+                            Entwickelt mit modernster Technologie von 
+                            <a href="https://caydendev.github.io" 
+                               class="text-neon-red hover:text-accent-red transition-colors duration-300 font-semibold"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                Cayden
+                            </a>. 
+                            Diese Plattform vereint innovative Designkonzepte mit optimaler Performance und 
+                            Benutzerfreundlichkeit.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="bg-deep-black border-t border-crimson/20 py-8">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <p>© <span id="current-year"></span> | The Blacklist | Made with ❤️ by <a href="#" onclick="redirectCayden()">Cayden</a></p>
+    <!-- Footer -->
+    <footer class="relative z-10 glass-card py-10">
+        <div class="container mx-auto px-8 text-center">
+            <p class="text-gray-400 font-display text-sm tracking-wider">
+                © <span id="current-year"></span> | The Blacklist | Mit <span class="text-neon-red">❤️</span> entwickelt von 
+                <a href="https://caydendev.github.io" 
+                   class="text-neon-red hover:text-accent-red transition-colors duration-300">
+                    Cayden
+                </a>
+            </p>
         </div>
     </footer>
 
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Enhanced Animations
+        gsap.from('nav', { 
+            y: -100, 
+            opacity: 0, 
+            duration: 1.2, 
+            ease: 'power4.out' 
+        });
+        
+        gsap.from('h1', { 
+            y: 60, 
+            opacity: 0, 
+            duration: 1.2, 
+            delay: 0.3, 
+            ease: 'power4.out' 
+        });
+        
+        gsap.from('.glass-card', { 
+            y: 100, 
+            opacity: 0, 
+            duration: 1.2, 
+            delay: 0.5, 
+            stagger: 0.2, 
+            ease: 'power4.out' 
+        });
     </script>
 </body>
 </html>
