@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organisationsstruktur</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         body {
             background-color: #1a1a1a;
@@ -13,7 +14,7 @@
             padding: 20px;
         }
 
-        .sheet-container {
+        .csv-container {
             max-width: 1400px;
             margin: 2rem auto;
             padding: 30px;
@@ -34,12 +35,50 @@
             padding-bottom: 15px;
         }
 
-        .sheets-iframe {
+        .csv-table {
             width: 100%;
-            height: 800px;
-            border: none;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
             border-radius: 8px;
-            background: transparent;
+            overflow: hidden;
+        }
+
+        .csv-table th {
+            background: #ff0000;
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .csv-table td {
+            padding: 12px 15px;
+            border: 1px solid #3d3d3d;
+            color: #e0e0e0;
+        }
+
+        .csv-table tr:nth-child(even) {
+            background-color: #252525;
+        }
+
+        .csv-table tr:nth-child(odd) {
+            background-color: #2d2d2d;
+        }
+
+        .csv-table tr:hover td {
+            background-color: #353535;
+            color: #ff0000;
+            transition: all 0.3s ease;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #ff0000;
+            font-style: italic;
         }
 
         ::-webkit-scrollbar {
@@ -61,7 +100,7 @@
         }
 
         @media (max-width: 768px) {
-            .sheet-container {
+            .csv-container {
                 padding: 15px;
                 margin: 1rem;
             }
@@ -70,21 +109,64 @@
                 font-size: 1.8rem;
             }
 
-            .sheets-iframe {
-                height: 600px;
+            .csv-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
             }
         }
     </style>
 </head>
 <body>
-    <div class="sheet-container">
+    <div class="csv-container">
         <h1>Organisationsstruktur</h1>
-        <iframe 
-            class="sheets-iframe"
-            src="https://docs.google.com/spreadsheets/d/1j4nWp7sTQ1cukp-8Jb89UYguUWfb76ShPYqEIF1UivQ/edit?gid=0&range=B8:F29&embedded=true&rm=minimal&chrome=false"
-            frameborder="0"
-            allowfullscreen>
-        </iframe>
+        <div id="csv-display">
+            <div class="loading">Lade Organisationsstruktur...</div>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('organisationsstruktur.csv')
+                .then(response => response.text())
+                .then(csvData => {
+                    Papa.parse(csvData, {
+                        complete: function(results) {
+                            const data = results.data;
+                            let tableHTML = '<table class="csv-table">';
+                            
+                            tableHTML += '<tr>';
+                            data[0].forEach(header => {
+                                tableHTML += `<th>${header}</th>`;
+                            });
+                            tableHTML += '</tr>';
+                            
+                            for(let i = 1; i < data.length; i++) {
+                                if (data[i].some(cell => cell.trim() !== '')) { 
+                                    tableHTML += '<tr>';
+                                    data[i].forEach(cell => {
+                                        tableHTML += `<td>${cell}</td>`;
+                                    });
+                                    tableHTML += '</tr>';
+                                }
+                            }
+                            
+                            tableHTML += '</table>';
+                            document.getElementById('csv-display').innerHTML = tableHTML;
+                        },
+                        error: function(error) {
+                            document.getElementById('csv-display').innerHTML = 
+                                '<div class="error">Fehler beim Laden der CSV-Datei.</div>';
+                            console.error('Error:', error);
+                        }
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('csv-display').innerHTML = 
+                        '<div class="error">Fehler beim Laden der CSV-Datei.</div>';
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 </body>
 </html>
