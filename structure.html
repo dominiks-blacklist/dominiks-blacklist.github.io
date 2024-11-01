@@ -4,51 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organisationsstruktur</title>
-    <!-- SheetJS library for Excel handling -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- Custom styling -->
     <style>
-        .excel-container {
-            max-width: 1200px;
-            margin: 2rem auto;
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
             padding: 20px;
-            background: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
+        }
+
+        .excel-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 30px;
+            background: #2d2d2d;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.2);
+            border-radius: 12px;
+            border: 1px solid #3d3d3d;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 3px solid #ff0000;
+            padding-bottom: 15px;
         }
 
         .excel-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .excel-table th {
-            background: #2c3e50;
+            background: #ff0000;
             color: white;
-            padding: 12px;
+            padding: 15px;
             font-weight: 600;
             text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
         }
 
         .excel-table td {
-            padding: 10px;
-            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            border: 1px solid #3d3d3d;
+            color: #e0e0e0;
+            background: #2d2d2d;
         }
 
-        .excel-table tr:nth-child(even) {
-            background-color: #f8f9fa;
+        .excel-table tr:nth-child(even) td {
+            background-color: #252525;
         }
 
-        .excel-table tr:hover {
-            background-color: #f1f4f7;
+        .excel-table tr:hover td {
+            background-color: #353535;
+            color: #ff0000;
+            transition: all 0.3s ease;
         }
 
         .loading {
             text-align: center;
-            padding: 20px;
+            padding: 30px;
             font-style: italic;
-            color: #666;
+            color: #ff0000;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .error {
+            color: #ff0000;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid #ff0000;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff0000;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff3333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .excel-container {
+                padding: 15px;
+                margin: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .excel-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .excel-table th,
+            .excel-table td {
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -62,7 +149,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Function to load and display Excel file
             async function loadExcel() {
                 try {
                     const response = await fetch('Organisationsstruktur.xlsx');
@@ -70,21 +156,17 @@
                     const data = new Uint8Array(arrayBuffer);
                     const workbook = XLSX.read(data, { type: 'array' });
                     
-                    // Get first sheet
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                     const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
                     
-                    // Create table
                     let tableHTML = '<table class="excel-table">';
                     
-                    // Headers
                     tableHTML += '<tr>';
                     jsonData[0].forEach(header => {
                         tableHTML += `<th>${header}</th>`;
                     });
                     tableHTML += '</tr>';
                     
-                    // Data rows
                     for(let i = 1; i < jsonData.length; i++) {
                         tableHTML += '<tr>';
                         jsonData[i].forEach(cell => {
